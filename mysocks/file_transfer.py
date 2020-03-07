@@ -4,7 +4,7 @@ import os
 import ntpath
 import errno
 from tqdm import tqdm
-from sockets.utilities import mapcount
+from mysocks.utilities import mapcount
 import time
 
 from . import Model
