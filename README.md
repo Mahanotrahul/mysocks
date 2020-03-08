@@ -22,7 +22,7 @@ Install one of python package managers in your distro. If you install pip, then 
 
 ### Details of the package
 - `utilities.py` - Contains helper functions for the package
-- `file_transfer` - Code to train non DL models. We have three models
+- `file_transfer` - Code to transfer files. Contains two classes for sending/receiving files.
 	- `1 - send_files`
 	- `2 - receive_files`
 
