@@ -29,7 +29,7 @@ class file_transfer(Model):
 
 
 
-class send_file(Model):
+class send_files(Model):
     """
     This class is a parent class for all file sending methods.
     Call this class to send file_send
@@ -47,7 +47,7 @@ class send_file(Model):
 
         self.s = super().create_server_socket(host, port, n_listen)
 
-        self.send_file(filenames)
+        self.send_files(filenames)
 
     def accept_connections(self):
         print("Waiting for client to connect")
@@ -59,7 +59,7 @@ class send_file(Model):
         """Returns the current line number in our program."""
         return inspect.currentframe().f_back.f_lineno
 
-    def send_file(self, filenames):
+    def send_files(self, filenames):
 
         # try:
             if 'conn' not in locals():
@@ -121,7 +121,7 @@ class send_file(Model):
         #     print("Error : " + str(e))
         #     print(self.lineno)
 
-class receive_file(Model):
+class receive_files(Model):
     """
     This class is a parent class for all the procedures related to
     receiving a file.
@@ -133,9 +133,9 @@ class receive_file(Model):
 
         self.s = super().create_client_socket(host, port)
         self.save_path = save_path
-        self.receive_file()
+        self.receive_files()
 
-    def receive_file(self):
+    def receive_files(self):
         """
         Method to receive files from the socket server
         """
