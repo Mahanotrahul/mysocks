@@ -30,6 +30,9 @@ Install one of python package managers in your distro. If you install pip, then 
 ### TODO: Examples
 Have a look at `examples/` directory.
 
+### Documentation
+Code documentation can be found [here](https://mysocks.readthedocs.io/)
+
 ### Installation
 
 A `setup.py` file is provided in the repository. You can run `python3 setup.py install` to install it at system level.
