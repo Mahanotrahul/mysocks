@@ -16,6 +16,16 @@ __author__ = 'Rahul Mahanot'
 __version__ = '1.0'
 
 class Model(object):
+    """Base Model Class for mysocks package
+
+    Attributes
+    ----------
+    host : string
+        IP Address of the socket that the server will bind to. Defaults to localhost
+    port : int
+        port of the socket server. Defaults to 5560
+
+    """
 
     # Class Variable
     host = ''
@@ -27,14 +37,29 @@ class Model(object):
         """
 
     def create_server_socket(self, host, port, n_listen):
-        """
-        Function to create a socket for a server that can handle `n_listen` number of clients at a time
+        """Function to create a socket for a server that can handle `n_listen` number of clients at a time
 
-        Args:
-            host (string): IP address of the socket to be created on in decimal notation or in hexadecimal notation
-            port (integer): Port number of the server that will be open for the clients
-            n_listen (integer): Maximum number of clients that the server can handle at a time
+            Args:
+                host (string): IP address of the socket to be created on in decimal notation or in hexadecimal notation
+                port (integer): Port number of the server that will be open for the clients
+                n_listen (integer): Maximum number of clients that the server can handle at a time
+
+        Parameters
+        ----------
+        host : string
+            IP Address of the socket that the server will bind to. Defaults to localhost
+        port : int
+            port of the socket server. Defaults to 5560
+        n_listen : int
+            Max. number of clients to connect to at one time
+
+
+        Returns
+        -------
+        s : socket object
+            socket object
         """
+
 
         self.host = host            ## Socket IP address
         self.port = port            ## Socket port number
@@ -66,6 +91,19 @@ class Model(object):
         Args:
             host (string): IP address of the socket to be created on in decimal notation or in hexadecimal notation
             port (integer): Port number of the server that will be open for the clients
+
+
+        Parameters
+        ----------
+        host : string
+            IP Address of the socket that the server will bind to. Defaults to localhost
+        port : int
+            port of the socket server. Defaults to 5560
+
+        Returns
+        -------
+        s : socket object
+            socket object
         """
 
         self.host = host            ## Socket IP address

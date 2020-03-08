@@ -17,24 +17,25 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="mysocks" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> mysocks
+            <a href="index.html" class="icon icon-home"> mysocks
           
 
           
@@ -61,7 +62,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -78,9 +79,17 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">mysocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../mysocks.html">mysocks package</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">mysocks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mysocks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mysocks-test-server-module">mysocks.Test_Server module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mysocks.file_send">mysocks.file_send module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mysocks.file_transfer">mysocks.file_transfer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mysocks.utilities">mysocks.utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mysocks">Module contents</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -95,7 +104,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">mysocks</a>
+          <a href="index.html">mysocks</a>
         
       </nav>
 
@@ -124,7 +133,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">mysocks</a> &raquo;</li>
         
       <li>mysocks package</li>
     
@@ -132,7 +143,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/source/mysocks.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/mysocks.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -158,7 +169,7 @@
 <dl class="class">
 <dt id="mysocks.file_send.file_send">
 <em class="property">class </em><code class="sig-prename descclassname">mysocks.file_send.</code><code class="sig-name descname">file_send</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5560</em>, <em class="sig-param">n_listen=1</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.file_send.file_send" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <p>This class is parent class to file transfer module.</p>
 <dl class="method">
 <dt id="mysocks.file_send.file_send.accept_connections">
@@ -173,7 +184,7 @@
 <dl class="class">
 <dt id="mysocks.file_transfer.file_transfer">
 <em class="property">class </em><code class="sig-prename descclassname">mysocks.file_transfer.</code><code class="sig-name descname">file_transfer</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5560</em>, <em class="sig-param">n_listen=1</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.file_transfer.file_transfer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <p>This class is parent class to file transfer module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -200,7 +211,7 @@
 <dl class="class">
 <dt id="mysocks.file_transfer.receive_files">
 <em class="property">class </em><code class="sig-prename descclassname">mysocks.file_transfer.</code><code class="sig-name descname">receive_files</code><span class="sig-paren">(</span><em class="sig-param">save_path: str = ''</em>, <em class="sig-param">host: str = '127.0.0.1'</em>, <em class="sig-param">port: int = 5560</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.file_transfer.receive_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all the procedures related to</dt><dd><p>receiving a file.</p>
 </dd>
@@ -225,7 +236,7 @@
 <dl class="class">
 <dt id="mysocks.file_transfer.send_files">
 <em class="property">class </em><code class="sig-prename descclassname">mysocks.file_transfer.</code><code class="sig-name descname">send_files</code><span class="sig-paren">(</span><em class="sig-param">filenames</em>, <em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5560</em>, <em class="sig-param">n_listen=1</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.file_transfer.send_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all file sending methods.</dt><dd><p>Call this class to send file_send</p>
 </dd>
@@ -385,6 +396,13 @@ n_listen (integer): Maximum number of clients that the server can handle at a ti
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="mysocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

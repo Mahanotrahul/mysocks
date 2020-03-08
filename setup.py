@@ -6,7 +6,7 @@ def _get_requirements():
     return requirements
 
 setup(
-      name = 'sockets',
+      name = 'mysocks',
       version = '1.0',
       description = 'Testing installation of sockets package',
       packages = ['mysocks'],
