@@ -5,3 +5,4 @@ mysocks
    :maxdepth: 4
 
    mysocks
+   mysocks\*
