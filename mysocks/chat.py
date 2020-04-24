@@ -12,9 +12,19 @@ import select
 from . import Model
 
 
-# TODO: Messenger  start/receive instead of chat
+# TODO: Messenger  send/receive instead of chat
 
 class chat(Model):
+    """This class is parent class to chat module
+
+    :param host: IP Address of the socket that the server will bind to. Defaults to 127.0.01
+    :type host: string, optional
+    :param port: port of the socket server. Defaults to 5660
+    :type port: int
+    :param n_listen: Max. number of clients to connect to at one time. Defaults to 5
+    :type n_listen: int
+
+    """
 
 
     def __init__(self, host = '127.0.0.1', port = 5660, n_listen = 5):
@@ -32,8 +42,44 @@ class chat(Model):
 
 
 class server(Model):
+    """This class is a parent class for all text message sending methods.
+        Call this class to start a chat server. CLients will be able to connect to this server and
+        all the clients will be able to chat with each other.
+        Server will not participate in the server.
+
+
+    :param host: IP Address of the socket that the server will bind to. Defaults to 127.0.01
+    :type host: string, optional
+    :param port: port of the socket server. Defaults to 5660
+    :type port: int
+    :param n_listen: Max. number of clients to connect to at one time. Defaults to 5
+    :type n_listen: int
+    :attr clients_connected: Total number of clients connected till now including the ones which may have left in between the chat.
+    :type clients_connected: list
+    :attr all_connections: socket object of all client connections. Deleted connections will be replaced by the keyword `deleted`.
+    :type all_connections: list
+    :attr type all_names: User names of all clients connected.
+    :type all_names: list
+    :attr type active_connections: Total number of active clients connected to the chat server.
+    :type active_connections: list
+    :attr s: server socket object.
+    :type s: socket object
+
+    """
 
     def __init__(self, host = '127.0.0.1', port = 5660, n_listen = 5):
+        """Constructor to start the chat server
+
+        :param host: IP Address of the socket that the server will bind to. Defaults to 127.0.01
+        :type host: string, optional
+        :param port: port of the socket server. Defaults to 5660
+        :type port: int
+        :param n_listen: Max. number of clients to connect to at one time. Defaults to 5
+        :type n_listen: int
+
+
+        """
+
 
         self.clients_connected = 0
         self.all_connections = []
@@ -43,13 +89,15 @@ class server(Model):
         self.accept_connections()
 
     def accept_connections(self):
-        """ Method to accept client connections
+        """ Method to accept client connections.
+        Creates a separate thread for each client to receive_data from clients
 
         :return: tuple of conn and addr of the connected client
         :rtype: tuple
 
 
         """
+        ## TODO: Handle the function when self.active_connections > self.n_listen:
         while self.active_connections <= self.n_listen:
             print("Waiting for client to connect")
             conn, addr = self.s.accept()
@@ -63,6 +111,16 @@ class server(Model):
             self.thread.start()
 
     def receive_data(self, conn, addr, client_no):
+        """Method to receive data from clients.
+
+        :param conn: socket object of the client
+        :type conn: socket object
+        :param addr: Address of the socket object
+        :type addr: socket object
+        :param client_no: Integer identifier of a client
+        :type n_listen: int
+
+        """
 
 
         u_name = conn.recv(1024)
@@ -129,8 +187,27 @@ class server(Model):
 
 
 class client(Model):
+    """This class is a parent class for all text message client methods.
+        Call this class to start a chat client.
+        This method connects to the server at the provided host and port
+
+
+    :param host: IP Address of the socket that the client will connect to. Defaults to 127.0.01
+    :type host: string, optional
+    :param port: port of the socket server. Defaults to 5660
+    :type port: int
+
+    """
 
     def __init__(self, host = '127.0.0.1', port = 5660):
+        """Constructor to start the chat client
+
+        :param host: IP Address of the socket that the client will connect to. Defaults to 127.0.01
+        :type host: string, optional
+        :param port: port of the socket server. Defaults to 5660
+        :type port: int
+
+        """
 
         self.s = super().create_client_socket(host, port)
 
@@ -146,6 +223,9 @@ class client(Model):
         self.send_data()
 
     def send_data(self):
+        """Method to send text messages to the server that will be relayed to other clients
+
+        """
 
         try:
             u_name = input('Your username? ')
@@ -173,6 +253,10 @@ class client(Model):
             print('disconnected from the server')
 
     def receive_data(self):
+        """Method to receive data from the server
+
+
+        """
 
         try:
             while True:
