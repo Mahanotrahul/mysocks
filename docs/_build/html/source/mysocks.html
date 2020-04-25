@@ -285,6 +285,127 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-mysocks.chat">
+<span id="mysocks-chat-module"></span><h2>mysocks.chat module<a class="headerlink" href="#module-mysocks.chat" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mysocks.chat.chat">
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">chat</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<p>This class is parent class to chat module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>string</em><em>, </em><em>optional</em>) – IP Address of the socket that the server will bind to. Defaults to 127.0.01</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – port of the socket server. Defaults to 5660</p></li>
+<li><p><strong>n_listen</strong> (<em>int</em>) – Max. number of clients to connect to at one time. Defaults to 5</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="mysocks.chat.chat.accept_connections">
+<code class="sig-name descname">accept_connections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.chat.accept_connections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mysocks.chat.client">
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">client</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dl class="simple">
+<dt>This class is a parent class for all text message client methods.</dt><dd><p>Call this class to start a chat client.
+This method connects to the server at the provided host and port</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>string</em><em>, </em><em>optional</em>) – IP Address of the socket that the client will connect to. Defaults to 127.0.01</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – port of the socket server. Defaults to 5660</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="mysocks.chat.client.receive_data">
+<code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.receive_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to receive data from the server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.client.send_data">
+<code class="sig-name descname">send_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.send_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to send text messages to the server that will be relayed to other clients</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mysocks.chat.server">
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">server</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
+<dl class="simple">
+<dt>This class is a parent class for all text message sending methods.</dt><dd><p>Call this class to start a chat server. CLients will be able to connect to this server and
+all the clients will be able to chat with each other.
+Server will not participate in the server.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>string</em><em>, </em><em>optional</em>) – IP Address of the socket that the server will bind to. Defaults to 127.0.01</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – port of the socket server. Defaults to 5660</p></li>
+<li><p><strong>n_listen</strong> (<em>int</em>) – Max. number of clients to connect to at one time. Defaults to 5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Attr clients_connected</dt>
+<dd class="field-even"><p>Total number of clients connected till now including the ones which may have left in between the chat.</p>
+</dd>
+<dt class="field-odd">Attr all_connections</dt>
+<dd class="field-odd"><p>socket object of all client connections. Deleted connections will be replaced by the keyword <cite>deleted</cite>.</p>
+</dd>
+<dt class="field-even">Attr type all_names</dt>
+<dd class="field-even"><p>User names of all clients connected.</p>
+</dd>
+<dt class="field-odd">Attr type active_connections</dt>
+<dd class="field-odd"><p>Total number of active clients connected to the chat server.</p>
+</dd>
+<dt class="field-even">Attr s</dt>
+<dd class="field-even"><p>server socket object.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="mysocks.chat.server.accept_connections">
+<code class="sig-name descname">accept_connections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.accept_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to accept client connections.
+Creates a separate thread for each client to receive_data from clients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>tuple of conn and addr of the connected client</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.server.receive_data">
+<code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><em class="sig-param">conn</em>, <em class="sig-param">addr</em>, <em class="sig-param">client_no</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.receive_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to receive data from clients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conn</strong> (<em>socket object</em>) – socket object of the client</p></li>
+<li><p><strong>addr</strong> (<em>socket object</em>) – Address of the socket object</p></li>
+<li><p><strong>client_no</strong> – Integer identifier of a client</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-mysocks.utilities">
 <span id="mysocks-utilities-module"></span><h2>mysocks.utilities module<a class="headerlink" href="#module-mysocks.utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">

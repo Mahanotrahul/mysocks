@@ -11,8 +11,9 @@ Welcome to mysocks's documentation!
 
    modules
    mysocks
-   mysocks\*
    :caption: Contents:
+.. automodule:: chat
+   :members:
 
 
 

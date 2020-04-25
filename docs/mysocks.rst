@@ -28,6 +28,14 @@ mysocks.file\_transfer module
    :undoc-members:
    :show-inheritance:
 
+mysocks.chat module
+------------------------
+
+.. automodule:: mysocks.chat
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mysocks.utilities module
 ------------------------
 
