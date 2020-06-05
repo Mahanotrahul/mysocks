@@ -13,7 +13,7 @@ connected to the Server
 """
 
 __author__ = 'Rahul Mahanot'
-__version__ = '1.0.2'
+__version__ = '1.0.4'
 
 class Model(object):
     """Base Model Class for mysocks package
