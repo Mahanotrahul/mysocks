@@ -1,16 +1,17 @@
 from tkinter import *
 import tkinter as tk
+from tkinter import scrolledtext
 import re
 import mysocks.chat as chat
-
+import threading    # threading library is used to create separate threads for every clients connected
 
 class launch():
 
 
-    def __init__(self):
+    def __init__(self, **kwargs):
 
         print('hello')
-        self.launch_gui()
+        self.launch_gui(**kwargs)
 
     def func(self, event):
         print("You hit return.")
@@ -32,19 +33,20 @@ class launch():
          t.HighlightPattern("^.*? - ", "blue")
          tk.Button(win, text='OK', command=win.destroy).pack()
 
-    def launch_gui(self):
-        from tkinter import scrolledtext
+    def launch_gui(self, **kwargs):
 
-        master_window = Tk()
-        master_window.title('mysocks Chatroom')
 
-        menu = Menu(master_window)
+        self.master_window = Tk()
+        self.title_master_window = kwargs.get('title', 'mysocks Chatroom')
+        self.master_window.title(self.title_master_window)
+
+        menu = Menu(self.master_window)
         filemenu = Menu(menu)
         menu.add_cascade(label='File', menu=filemenu)
         filemenu.add_command(label = 'New')
-        filemenu.add_command(label = 'Open')
+        filemenu.add_command(label = 'Start Chatroom', command = self.start_chat)
         filemenu.add_separator()
-        filemenu.add_command(label = 'Exit', command = master_window.destroy)
+        filemenu.add_command(label = 'Exit', command = self.master_window.destroy)
 
         helpmenu = Menu(menu)
         menu.add_cascade(label = 'Help', menu=helpmenu)
@@ -54,7 +56,7 @@ class launch():
         # scrollbar.pack(side = RIGHT, fill = Y )
 
         # Group1 Frame ----------------------------------------------------
-        group1 = LabelFrame(master_window, text="Type your message here", padx=5, pady=5)
+        group1 = LabelFrame(self.master_window, text="Type your message here", padx=5, pady=5)
         group1.grid(row=0, column=0, columnspan=3, padx=10, sticky=E+W+N+S)
 
         message_box = Text(group1, height = 2)
@@ -68,11 +70,11 @@ class launch():
         message_box.bind('<Return>', self.func)
 
         # Group2 Frame ----------------------------------------------------
-        group2 = LabelFrame(master_window, text="Chat Room", padx=5, pady=5)
+        group2 = LabelFrame(self.master_window, text="Chat Room", padx=5, pady=5)
         group2.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
 
-        master_window.columnconfigure(0, weight=1)
-        master_window.rowconfigure(1, weight=1)
+        self.master_window.columnconfigure(0, weight=1)
+        self.master_window.rowconfigure(1, weight=1)
 
         group1.rowconfigure(0, weight=1)
         group1.columnconfigure(0, weight=1)
@@ -83,8 +85,13 @@ class launch():
         txtbox = scrolledtext.ScrolledText(group2, width=40, height=10)
         txtbox.grid(row=0, column=0,   sticky=E+W+N+S)
 
-        master_window.config(menu=menu)
+        self.master_window.config(menu=menu)
         mainloop()
+
+    def start_chat(self):
+        self.chat_thread = threading.Thread(target = chat.server)
+        self.chat_thread.daemon = True
+        self.chat_thread.start()
 
 class CustomText(tk.Text):
     '''A text widget with a new method, HighlightPattern
@@ -117,3 +124,5 @@ class CustomText(tk.Text):
             self.mark_set("matchStart", index)
             self.mark_set("matchEnd", "%s+%sc" % (index,count.get()))
             self.tag_add(tag, "matchStart","matchEnd")
+
+launch()
