@@ -46,7 +46,8 @@ class launch():
         filemenu = Menu(menu)
         menu.add_cascade(label='File', menu=filemenu)
         filemenu.add_command(label = 'New')
-        filemenu.add_command(label = 'Start Chatroom', command = self.start_chat)
+        filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
+        filemenu.add_command(label = 'Connect Chatroom', command = self.start_client)
         filemenu.add_separator()
         filemenu.add_command(label = 'Exit', command = self.exit_gui)
 
@@ -90,8 +91,13 @@ class launch():
         self.master_window.config(menu=menu)
         mainloop()
 
-    def start_chat(self):
+    def start_server(self):
         self.chat_thread = threading.Thread(target = chat.server)
+        self.chat_thread.daemon = True
+        self.chat_thread.start()
+
+    def start_client(self):
+        self.chat_thread = threading.Thread(target = chat.client)
         self.chat_thread.daemon = True
         self.chat_thread.start()
 
