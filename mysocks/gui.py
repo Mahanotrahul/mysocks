@@ -4,6 +4,8 @@ from tkinter import scrolledtext
 import re
 import mysocks.chat as chat
 import threading    # threading library is used to create separate threads for every clients connected
+import sys
+import ctypes
 
 class launch():
 
@@ -46,7 +48,7 @@ class launch():
         filemenu.add_command(label = 'New')
         filemenu.add_command(label = 'Start Chatroom', command = self.start_chat)
         filemenu.add_separator()
-        filemenu.add_command(label = 'Exit', command = self.master_window.destroy)
+        filemenu.add_command(label = 'Exit', command = self.exit_gui)
 
         helpmenu = Menu(menu)
         menu.add_cascade(label = 'Help', menu=helpmenu)
@@ -93,6 +95,28 @@ class launch():
         self.chat_thread.daemon = True
         self.chat_thread.start()
 
+    def exit_gui(self):
+        self.raise_exception()
+        # self.chat_thread.join()
+        self.master_window.destroy()
+        sys.exit()
+
+    def get_id(self):
+
+        # returns id of the respective thread
+        if hasattr(self.chat_thread, '_thread_id'):
+            return self.chat_thread._thread_id
+        for id, thread in threading._active.items():
+            if thread is self.chat_thread:
+                return id
+    def raise_exception(self):
+        thread_id = self.get_id()
+        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+              ctypes.py_object(SystemExit))
+        if res > 1:
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+            print('Exception raise failure')
+
 class CustomText(tk.Text):
     '''A text widget with a new method, HighlightPattern
 
@@ -124,5 +148,3 @@ class CustomText(tk.Text):
             self.mark_set("matchStart", index)
             self.mark_set("matchEnd", "%s+%sc" % (index,count.get()))
             self.tag_add(tag, "matchStart","matchEnd")
-
-launch()
