@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import scrolledtext
 import re
-import mysocks.chat as chat
+from mysocks import chat
 import threading    # threading library is used to create separate threads for every clients connected
 import sys
 import ctypes

@@ -9,6 +9,8 @@ from math import floor, ceil
 import threading    # threading library is used to create separate threads for every clients connected
 import select
 
+from mysocks import gui
+
 from . import Model
 
 
@@ -86,6 +88,7 @@ class server(Model):
         self.all_names = []
         self.active_connections = 0
         self.s = super().create_server_socket(host, port, n_listen)
+        gui.launch()
         self.accept_connections()
 
     def accept_connections(self):
