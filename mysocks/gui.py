@@ -8,6 +8,14 @@ import sys
 import ctypes
 
 class launch():
+    """This class is a parent class for all tkinter gui related tasks
+        Call this class to start a tkinter gui.
+        Filemenu options can be used to start a chatroom server or a client
+
+    :param kwargs **kwargs: `**kwargs`.
+    :attr type launch_gui: Function module to start gui
+
+    """
 
 
     def __init__(self, **kwargs):
