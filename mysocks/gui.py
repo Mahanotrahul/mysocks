@@ -95,8 +95,8 @@ class launch():
 
     def Text_insert(self):
         try:
-            if(len(self._chat.message_queue) > 0):
-                self.txtbox.insert(END, self._chat.message_queue[-1] + '\n')
+            while not self._chat.message_queue.empty():
+                self.txtbox.insert(END, self._chat.message_queue.get() + '\n')
                 self.txtbox.see("end")
             self.master_window.after(1000, self.Text_insert)
         except:

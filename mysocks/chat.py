@@ -8,6 +8,7 @@ import time
 from math import floor, ceil
 import threading    # threading library is used to create separate threads for every clients connected
 import select
+from queue import Queue
 
 from mysocks import gui
 
@@ -110,7 +111,7 @@ class server(Model):
 
 
         """
-        self.message_queue = []
+        self.message_queue = Queue()
         ## TODO: Handle the function when self.active_connections > self.n_listen:
         # print(self._gui.Id)
         while self.active_connections <= self.n_listen:
@@ -118,7 +119,7 @@ class server(Model):
             conn, addr = self.s.accept()
             temp = 'Client connected at ' + str(addr[0]) + ':' + str(addr[1])
             print(temp)
-            self.message_queue.append(temp)
+            self.message_queue.put(temp)
             self.clients_connected += 1
             self.active_connections += 1
             self.all_connections.append(conn)
@@ -142,7 +143,9 @@ class server(Model):
 
         u_name = conn.recv(1024)
         u_name = u_name.decode('utf-8')
-        print('Client name ' + str(u_name) + ' joined')
+        temp = 'Client name ' + str(u_name) + ' joined'
+        print(temp)
+        self.message_queue.put(temp)
         self.all_names[client_no] = u_name
         while True:
 
@@ -150,11 +153,14 @@ class server(Model):
                 data = conn.recv(1024)
                 data = data.decode('utf-8')
                 if conn is None or data == '':
-                    print('Client ' + str(u_name) + ' got disconnected')
+                    temp = 'Client ' + str(u_name) + ' got disconnected'
+                    print(temp)
+                    self.message_queue.put(temp)
                     break
 
                 print('Client : ' + str(u_name) + '> ' + str(data))
                 msg = 'Client ' + str(u_name) + ' : ' + str(data)
+                self.message_queue.put(msg)
                 for connection in self.all_connections:
                     if conn is not connection and connection != 'deleted':
                         try:
@@ -170,6 +176,7 @@ class server(Model):
                 print(e)
                 print('Error in chat.server.receive_data')
                 print('Client got disconnected')
+                self.message_queue.put('Client got disconnected')
                 conn.shutdown(2)
                 conn.close()
                 self.all_connections[client_no] = 'deleted'
