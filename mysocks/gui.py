@@ -9,7 +9,7 @@ import ctypes
 
 class launch():
     """This class is a parent class for all tkinter gui related tasks
-        Call this class to start a tkinter gui.
+        Call this class to get an object of launch class to start a tkinter gui.
         Filemenu options can be used to start a chatroom server or a client
 
     :param kwargs **kwargs: `**kwargs`.
@@ -19,6 +19,13 @@ class launch():
 
 
     def __init__(self, **kwargs):
+        """Constructor for class launch
+
+        :param kwargs **kwargs: `**kwargs`.
+        :return: launch class object
+        :rtype: launch class object
+
+        """
 
         print('hello')
         # self.launch_gui(**kwargs)
