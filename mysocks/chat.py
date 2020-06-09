@@ -69,7 +69,7 @@ class server(Model):
 
     """
 
-    def __init__(self, host = '127.0.0.1', port = 5660, n_listen = 5):
+    def __init__(self, host = '127.0.0.1', port = 5660, n_listen = 5, **kwargs):
         """Constructor to start the chat server
 
         :param host: IP Address of the socket that the server will bind to. Defaults to 127.0.01
@@ -87,8 +87,18 @@ class server(Model):
         self.all_connections = []
         self.all_names = []
         self.active_connections = 0
+        super(Model, self).__init__()
+        # self.s = super().create_server_socket(host, port, n_listen)
+        self.gui = kwargs.get('gui', False)
+        if self.gui == True:
+            self._gui = gui.launch()
+            self.gui_thread()
+        # else:
+        #     self.start_server(host, port, n_listen)
+
+    def start_server(self, host, port, n_listen):
+        self.Id_start = 20
         self.s = super().create_server_socket(host, port, n_listen)
-        gui.launch()
         self.accept_connections()
 
     def accept_connections(self):
@@ -100,11 +110,15 @@ class server(Model):
 
 
         """
+        self.message_queue = []
         ## TODO: Handle the function when self.active_connections > self.n_listen:
+        # print(self._gui.Id)
         while self.active_connections <= self.n_listen:
             print("Waiting for client to connect")
             conn, addr = self.s.accept()
-            print('Client connected at ' + str(addr[0]) + ':' + str(addr[1]))
+            temp = 'Client connected at ' + str(addr[0]) + ':' + str(addr[1])
+            print(temp)
+            self.message_queue.append(temp)
             self.clients_connected += 1
             self.active_connections += 1
             self.all_connections.append(conn)
@@ -131,31 +145,7 @@ class server(Model):
         print('Client name ' + str(u_name) + ' joined')
         self.all_names[client_no] = u_name
         while True:
-            # try:
-            #     ready_to_read, ready_to_write, in_error = select.select([conn], [], [], 1)
-            #     print(ready_to_read)
-            #     print(ready_to_write)
-            #     print(str(in_error))
-            # except select.error as e:
-            #     conn.shutdown(2)
-            #     conn.close()
-            #     print('Error - socket not readable')
-            #     print('Client ' + str(u_name) + ' disconnected')
-            #     break
 
-            # try:
-            #     if len(ready_to_read) > 0:
-            #         data = conn.recv(1024)
-            #         data = data.decode('utf-8')
-            #     else:
-            #         print('Client ' + str(u_name) + ' got disconnected')
-            #         break
-            #
-            #     if conn is None or data == '':
-            #         print('Client ' + str(u_name) + ' got disconnected')
-            #         break
-            #
-            #         print('Client : ' + str(u_name) + '> ' + str(data))
             try:
                 data = conn.recv(1024)
                 data = data.decode('utf-8')
@@ -187,6 +177,10 @@ class server(Model):
                 self.active_connections -= 1
                 break
 
+    def gui_thread(self):
+        self.gui_thread = threading.Thread(target = self._gui.launch_gui, args = ())
+        self.gui_thread.daemon = True
+        self.gui_thread.start()
 
 
 class client(Model):

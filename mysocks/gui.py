@@ -13,9 +13,10 @@ class launch():
     def __init__(self, **kwargs):
 
         print('hello')
-        self.launch_gui(**kwargs)
+        # self.launch_gui(**kwargs)
+        self.Id = 10
 
-    def func(self, event):
+    def hit_return(self, event):
         print("You hit return.")
 
     def onclick(self, event=None):
@@ -42,59 +43,71 @@ class launch():
         self.title_master_window = kwargs.get('title', 'mysocks Chatroom')
         self.master_window.title(self.title_master_window)
 
-        menu = Menu(self.master_window)
-        filemenu = Menu(menu)
-        menu.add_cascade(label='File', menu=filemenu)
-        filemenu.add_command(label = 'New')
-        filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
-        filemenu.add_command(label = 'Connect Chatroom', command = self.start_client)
-        filemenu.add_separator()
-        filemenu.add_command(label = 'Exit', command = self.exit_gui)
+        self.menu = Menu(self.master_window)
+        self.filemenu = Menu(self.menu)
+        self.menu.add_cascade(label='File', menu=self.filemenu)
+        self.filemenu.add_command(label = 'New')
+        self.filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
+        self.filemenu.add_command(label = 'Connect Chatroom', command = self.start_client)
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label = 'Exit', command = self.exit_gui)
 
-        helpmenu = Menu(menu)
-        menu.add_cascade(label = 'Help', menu=helpmenu)
-        helpmenu.add_command(label = 'About', command = self.help_win)
+        self.helpmenu = Menu(self.menu)
+        self.menu.add_cascade(label = 'Help', menu=self.helpmenu)
+        self.helpmenu.add_command(label = 'About', command = self.help_win)
 
         # scrollbar = Scrollbar(group2)
         # scrollbar.pack(side = RIGHT, fill = Y )
 
         # Group1 Frame ----------------------------------------------------
-        group1 = LabelFrame(self.master_window, text="Type your message here", padx=5, pady=5)
-        group1.grid(row=0, column=0, columnspan=3, padx=10, sticky=E+W+N+S)
+        self.group1 = LabelFrame(self.master_window, text="Type your message here", padx=5, pady=5)
+        self.group1.grid(row=0, column=0, columnspan=3, padx=10, sticky=E+W+N+S)
 
-        message_box = Text(group1, height = 2)
+        self.message_box = Text(self.group1, height = 2)
         # message_box.pack(side = LEFT, fill = BOTH)
-        message_box.grid(row = 0, column = 0, columnspan = 2, pady=10, sticky = E+W+N+S)
+        self.message_box.grid(row = 0, column = 0, columnspan = 2, pady=10, sticky = E+W+N+S)
 
 
-        btn_File = Button(group1, text='Send', command=self.onclick)
-        btn_File.grid(row=0, column=2, padx=(10), pady=10, sticky=E+W+N+S)
+        self.btn_File = Button(self.group1, text='Send', command=self.onclick)
+        self.btn_File.grid(row=0, column=2, padx=(10), pady=10, sticky=E+W+N+S)
 
-        message_box.bind('<Return>', self.func)
+        self.message_box.bind('<Return>', self.hit_return)
 
         # Group2 Frame ----------------------------------------------------
-        group2 = LabelFrame(self.master_window, text="Chat Room", padx=5, pady=5)
-        group2.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        self.group2 = LabelFrame(self.master_window, text="Chat Room", padx=5, pady=5)
+        self.group2.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
 
         self.master_window.columnconfigure(0, weight=1)
         self.master_window.rowconfigure(1, weight=1)
 
-        group1.rowconfigure(0, weight=1)
-        group1.columnconfigure(0, weight=1)
+        self.group1.rowconfigure(0, weight=1)
+        self.group1.columnconfigure(0, weight=1)
 
-        group2.rowconfigure(0, weight=1)
-        group2.columnconfigure(0, weight=1)
+        self.group2.rowconfigure(0, weight=1)
+        self.group2.columnconfigure(0, weight=1)
         # Create the textbox
-        txtbox = scrolledtext.ScrolledText(group2, width=40, height=10)
-        txtbox.grid(row=0, column=0,   sticky=E+W+N+S)
+        self.txtbox = scrolledtext.ScrolledText(self.group2, width=40, height=10)
+        self.txtbox.grid(row=0, column=0,   sticky=E+W+N+S)
 
-        self.master_window.config(menu=menu)
-        mainloop()
+        self.master_window.config(menu=self.menu)
+        self.master_window.after(1000, self.Text_insert)
+        self.master_window.mainloop()
+
+    def Text_insert(self):
+        try:
+            if(len(self._chat.message_queue) > 0):
+                self.txtbox.insert(END, self._chat.message_queue[-1] + '\n')
+                self.txtbox.see("end")
+            self.master_window.after(1000, self.Text_insert)
+        except:
+            self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
-        self.chat_thread = threading.Thread(target = chat.server)
+        self._chat = chat.server()
+        self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
         self.chat_thread.daemon = True
         self.chat_thread.start()
+        print(self._chat.Id_start)
 
     def start_client(self):
         self.chat_thread = threading.Thread(target = chat.client)
@@ -108,7 +121,6 @@ class launch():
         sys.exit()
 
     def get_id(self):
-
         # returns id of the respective thread
         if hasattr(self.chat_thread, '_thread_id'):
             return self.chat_thread._thread_id
@@ -116,12 +128,15 @@ class launch():
             if thread is self.chat_thread:
                 return id
     def raise_exception(self):
-        thread_id = self.get_id()
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
-              ctypes.py_object(SystemExit))
-        if res > 1:
-            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
-            print('Exception raise failure')
+        try:
+            thread_id = self.get_id()
+            res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+                  ctypes.py_object(SystemExit))
+            if res > 1:
+                ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+                print('Exception raise failure')
+        except:
+            pass
 
 class CustomText(tk.Text):
     '''A text widget with a new method, HighlightPattern
