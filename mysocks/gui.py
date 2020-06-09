@@ -14,7 +14,6 @@ class launch():
 
         print('hello')
         # self.launch_gui(**kwargs)
-        self.Id = 10
 
     def hit_return(self, event):
         print("You hit return.")
