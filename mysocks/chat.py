@@ -91,11 +91,15 @@ class server(Model):
         super(Model, self).__init__()
         # self.s = super().create_server_socket(host, port, n_listen)
         self.gui = kwargs.get('gui', False)
-        if self.gui == True:
-            self._gui = gui.launch()
-            self.gui_thread()
-        # else:
-        #     self.start_server(host, port, n_listen)
+        self.isCalledFromGUI = kwargs.get('isCalledFromGUI', False)
+        if self.isCalledFromGUI == False:
+            if self.gui == True:    # If isCalledFromGUI == False and gui == True, launch gui from chat server but do not start the chat server
+                self._gui = gui.launch(isCalledFromServer = True)
+                self.gui_thread()
+            else:
+                self.start_server(host, port, n_listen) # If isCalledFromGUI == False and gui == False, start the chat server but do not launch the gui
+        else:   #If isCalledFromGUI == True, only return the chat server object to the gui class
+            pass
 
     def start_server(self, host, port, n_listen):
         self.Id_start = 20

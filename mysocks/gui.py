@@ -28,7 +28,9 @@ class launch():
         """
 
         print('hello')
-        # self.launch_gui(**kwargs)
+        self.isCalledFromServer = kwargs.get('isCalledFromServer', False)
+        if self.isCalledFromServer == False:
+            self.launch_gui(**kwargs)
 
     def hit_return(self, event):
         print("You hit return.")
@@ -117,7 +119,7 @@ class launch():
             self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
-        self._chat = chat.server()
+        self._chat = chat.server(isCalledFromGUI = True)
         self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
         self.chat_thread.daemon = True
         self.chat_thread.start()
