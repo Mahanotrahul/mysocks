@@ -123,7 +123,6 @@ class launch():
         self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
         self.chat_thread.daemon = True
         self.chat_thread.start()
-        print(self._chat.Id_start)
 
     def start_client(self):
         self.chat_thread = threading.Thread(target = chat.client)

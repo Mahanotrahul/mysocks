@@ -102,7 +102,6 @@ class server(Model):
             pass
 
     def start_server(self, host, port, n_listen):
-        self.Id_start = 20
         self.s = super().create_server_socket(host, port, n_listen)
         self.accept_connections()
 
