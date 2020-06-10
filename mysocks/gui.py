@@ -28,9 +28,15 @@ class launch():
         """
 
         print('hello')
+        # Parameters
+        self._about_win_state = False
+        self._server_state = False
+        
         self.isCalledFromServer = kwargs.get('isCalledFromServer', False)
         if self.isCalledFromServer == False:
             self.launch_gui(**kwargs)
+
+
 
     def hit_return(self, event):
         print("You hit return.")
@@ -76,7 +82,7 @@ class launch():
         self.menu.add_cascade(label='File', menu=self.filemenu)
         self.filemenu.add_command(label = 'New')
         self.filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
-        self.filemenu.add_command(label = 'Connect Chatroom', command = self.start_client)
+        self.filemenu.add_command(label = 'Connect to Chatroom', command = self.start_client)
         self.filemenu.add_separator()
         self.filemenu.add_command(label = 'Exit', command = self._exit_gui)
 
@@ -84,7 +90,6 @@ class launch():
         self.helpmenu = Menu(self.menu)
         self.menu.add_cascade(label = 'Help', menu=self.helpmenu)
         self.helpmenu.add_command(label = 'About', command = self._about_win)
-        self._about_win_state = False
 
         # scrollbar = Scrollbar(group2)
         # scrollbar.pack(side = RIGHT, fill = Y )
@@ -129,15 +134,19 @@ class launch():
             while not self._chat.message_queue.empty():
                 self.txtbox.insert(END, self._chat.message_queue.get() + '\n')
                 self.txtbox.see("end")
-            self.master_window.after(1000, self.Text_insert)
         except:
-            self.master_window.after(1000, self.Text_insert)
+            pass
+        self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
-        self._chat = chat.server(isCalledFromGUI = True)
-        self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
-        self.chat_thread.daemon = True
-        self.chat_thread.start()
+        if self._server_state == False:
+            self._server_state = True
+            self._chat = chat.server(isCalledFromGUI = True)
+            self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
+            self.chat_thread.daemon = True
+            self.chat_thread.start()
+        else:
+            print('Server already started')
 
     def start_client(self):
         self.chat_thread = threading.Thread(target = chat.client)
