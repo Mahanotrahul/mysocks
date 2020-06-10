@@ -206,7 +206,7 @@ class client(Model):
 
     """
 
-    def __init__(self, host = '127.0.0.1', port = 5660):
+    def __init__(self, host = '127.0.0.1', port = 5660, **kwargs):
         """Constructor to start the chat client
 
         :param host: IP Address of the socket that the client will connect to. Defaults to 127.0.01
@@ -216,6 +216,20 @@ class client(Model):
 
         """
 
+
+
+        self.gui = kwargs.get('gui', False)
+        self.isCalledFromGUI = kwargs.get('isCalledFromGUI', False)
+        if self.isCalledFromGUI == False:
+            if self.gui == False:   # If isCalledFromGUI == False and gui == False, start the chat client but do not launch the gui
+                self.start_client(host, port)
+            else:   # If isCalledFromGUI == False and gui == True, launch gui from chat client but do not start the chat client
+                self._gui = gui.launch(isCalledFromClient = True)
+                self.gui_thread()
+        else:   #If isCalledFromGUI == True, only return the chat client object to the gui class
+            pass
+
+    def start_client(self, host, port):
         self.s = super().create_client_socket(host, port)
 
         ## Thread to receive data from the server
@@ -223,11 +237,8 @@ class client(Model):
         self.receive_thread.daemon = True
         self.receive_thread.start()
 
-        ## Thread to send data to the server
-        # self.send_thread = threading.Thread(target = self.send_data)
-        # self.send_thread.daemon = True
-        # self.send_thread.start()
         self.send_data()
+
 
     def send_data(self):
         """Method to send text messages to the server that will be relayed to other clients
@@ -283,3 +294,8 @@ class client(Model):
         except Exception as e:
             print(e)
             print('Client got disconnected')
+
+    def gui_thread(self):
+        self.gui_thread = threading.Thread(target = self._gui.launch_gui, args = ())
+        self.gui_thread.daemon = True
+        self.gui_thread.start()

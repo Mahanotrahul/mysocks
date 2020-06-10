@@ -126,7 +126,7 @@ class Model(object):
                 return self.s
             else:
                 print("Error: ", e)
-                print('Error with connecting to socket server')
+                print('Error while connecting to socket server')
                 sys.exit()
 
 

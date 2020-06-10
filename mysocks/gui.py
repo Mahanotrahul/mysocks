@@ -30,8 +30,9 @@ class launch():
 
         print('hello')
         # Parameters
-        self._about_win_state = False
-        self._server_state = False
+        self._about_win_state = False   # True: About window is active. # False: about windows not active
+        self._server_state = False  # True: server created. False: server closed or not created yet
+        self._connected_as_client = False  # True: connected as client. False: not connected to any server
 
         self.isCalledFromServer = kwargs.get('isCalledFromServer', False)
         if self.isCalledFromServer == False:
@@ -148,9 +149,17 @@ class launch():
             print('Server already started')
 
     def start_client(self):
-        self.chat_thread = threading.Thread(target = chat.client)
-        self.chat_thread.daemon = True
-        self.chat_thread.start()
+        try:
+            if self._connected_as_client == False:
+                self._client_chat = chat.client(isCalledFromGUI = True)
+                self.client_chat_thread = threading.Thread(target = self._client_chat.start_client, args = ('127.0.0.1', 5660))
+                self.client_chat_thread.daemon = True
+                self.client_chat_thread.start()
+                self._connected_as_client = True
+            else:
+                print('Client already connected')
+        except:
+            print('Unable to connect to server')
 
     def _exit_gui(self):
         self.raise_exception()
