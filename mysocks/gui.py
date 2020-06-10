@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import scrolledtext
 import re
+import time
 from mysocks import __version__, __author__, __email__
 from mysocks import chat
 import threading    # threading library is used to create separate threads for every clients connected
@@ -155,6 +156,7 @@ class launch():
                 self.client_chat_thread = threading.Thread(target = self._client_chat.start_client, args = ('127.0.0.1', 5660))
                 self.client_chat_thread.daemon = True
                 self.client_chat_thread.start()
+                time.sleep(3)
                 print(self._client_chat._connected_as_client)
                 if self._client_chat._connected_as_client == True:
                     self._connected_as_client = True

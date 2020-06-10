@@ -233,13 +233,15 @@ class client(Model):
         self.s = super().create_client_socket(host, port)
         # self._connected_as_client = super()._connected_as_client
         print(self._connected_as_client)
-        ## Thread to receive data from the server
-        self.receive_thread = threading.Thread(target = self.receive_data)
-        self.receive_thread.daemon = True
-        self.receive_thread.start()
+        if self._connected_as_client == True:
+            ## Thread to receive data from the server
+            self.receive_thread = threading.Thread(target = self.receive_data)
+            self.receive_thread.daemon = True
+            self.receive_thread.start()
 
-        self.send_data()
-
+            self.send_data()
+        else:
+            print('Client could not connect to any server. Try again.')
 
     def send_data(self):
         """Method to send text messages to the server that will be relayed to other clients
