@@ -38,19 +38,31 @@ class launch():
     def onclick(self, event=None):
         print("You clicked the button")
 
-    def help_win(self):
-         win = tk.Toplevel()
-         win.title("About")
-         about = '''mysocks package - version 1.0.3
-         Author: Rahul Mahanot
-         Email: thecodeboxed@gmail.com'''
-         about = re.sub("\n\s*", "\n", about) # remove leading whitespace from each line
-         t=CustomText(win, wrap="word", width=100, height=10, borderwidth=0)
-         t.tag_configure("blue", foreground="blue")
-         t.pack(sid="top",fill="both",expand=True)
-         t.insert("1.0", about)
-         t.HighlightPattern("^.*? - ", "blue")
-         tk.Button(win, text='OK', command=win.destroy).pack()
+    def _about_win(self):
+        if self._about_win_state == False:
+             win = tk.Toplevel()
+             self._about_win = win
+             self._about_win_state = True
+             win.title("About")
+             about = '''mysocks package - version 1.0.3
+             Author: Rahul Mahanot
+             Email: thecodeboxed@gmail.com'''
+             about = re.sub("\n\s*", "\n", about) # remove leading whitespace from each line
+             t=CustomText(win, wrap="word", width=100, height=10, borderwidth=0)
+             t.tag_configure("blue", foreground="blue")
+             t.pack(sid="top",fill="both",expand=True)
+             t.insert("1.0", about)
+             t.HighlightPattern("^.*? - ", "blue")
+             ok_btn = tk.Button(win, text='OK', command = self._close_about_win)
+             ok_btn.pack()
+             t.config(state = DISABLED)
+             win.protocol('WM_DELETE_WINDOW', self._close_about_win)
+        self._about_win.lift()
+
+    def _close_about_win(self):
+        if self._about_win_state == True:
+            self._about_win_state = False
+        self._about_win.destroy()
 
     def launch_gui(self, **kwargs):
 
@@ -66,11 +78,13 @@ class launch():
         self.filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
         self.filemenu.add_command(label = 'Connect Chatroom', command = self.start_client)
         self.filemenu.add_separator()
-        self.filemenu.add_command(label = 'Exit', command = self.exit_gui)
+        self.filemenu.add_command(label = 'Exit', command = self._exit_gui)
+
 
         self.helpmenu = Menu(self.menu)
         self.menu.add_cascade(label = 'Help', menu=self.helpmenu)
-        self.helpmenu.add_command(label = 'About', command = self.help_win)
+        self.helpmenu.add_command(label = 'About', command = self._about_win)
+        self._about_win_state = False
 
         # scrollbar = Scrollbar(group2)
         # scrollbar.pack(side = RIGHT, fill = Y )
@@ -107,6 +121,7 @@ class launch():
 
         self.master_window.config(menu=self.menu)
         self.master_window.after(1000, self.Text_insert)
+        self.master_window.protocol('WM_DELETE_WINDOW', self._exit_gui)
         self.master_window.mainloop()
 
     def Text_insert(self):
@@ -129,7 +144,7 @@ class launch():
         self.chat_thread.daemon = True
         self.chat_thread.start()
 
-    def exit_gui(self):
+    def _exit_gui(self):
         self.raise_exception()
         # self.chat_thread.join()
         self.master_window.destroy()
