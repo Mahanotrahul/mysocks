@@ -216,7 +216,7 @@ class client(Model):
 
         """
 
-
+        super(Model, self).__init__()
 
         self.gui = kwargs.get('gui', False)
         self.isCalledFromGUI = kwargs.get('isCalledFromGUI', False)
@@ -231,7 +231,8 @@ class client(Model):
 
     def start_client(self, host, port):
         self.s = super().create_client_socket(host, port)
-
+        # self._connected_as_client = super()._connected_as_client
+        print(self._connected_as_client)
         ## Thread to receive data from the server
         self.receive_thread = threading.Thread(target = self.receive_data)
         self.receive_thread.daemon = True

@@ -155,10 +155,15 @@ class launch():
                 self.client_chat_thread = threading.Thread(target = self._client_chat.start_client, args = ('127.0.0.1', 5660))
                 self.client_chat_thread.daemon = True
                 self.client_chat_thread.start()
-                self._connected_as_client = True
+                print(self._client_chat._connected_as_client)
+                if self._client_chat._connected_as_client == True:
+                    self._connected_as_client = True
+                else:
+                    print('Client could not be connected')
             else:
                 print('Client already connected')
-        except:
+        except Exception as e:
+            print(e)
             print('Unable to connect to server')
 
     def _exit_gui(self):

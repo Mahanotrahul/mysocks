@@ -118,16 +118,17 @@ class Model(object):
 
             print('Connected to socket server at host = ', self.host, ':', str(self.port))
             self.s = s
+            self._connected_as_client = True
             return self.s
 
         except Exception as e:
+            self._connected_as_client = False
             if e.errno == 10048:
                 print('Socket already exists')
                 return self.s
             else:
                 print("Error: ", e)
                 print('Error while connecting to socket server')
-                sys.exit()
 
 
     def accept_connections(self):
