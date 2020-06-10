@@ -2,6 +2,10 @@
 sockets module.
 Provides a library to create socket server and clients to chat or transfer files
 """
+__author__ = 'Rahul Mahanot'
+__version__ = '1.0.4'
+__email__ = "thecodeboxed@gmail.com"
+
 
 import socket
 import sys
@@ -12,8 +16,7 @@ Threading module will be used to create threads for each clienr connection
 connected to the Server
 """
 
-__author__ = 'Rahul Mahanot'
-__version__ = '1.0.4'
+
 
 class Model(object):
     """Base Model Class for mysocks package

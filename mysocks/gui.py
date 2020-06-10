@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import scrolledtext
 import re
+from mysocks import __version__, __author__, __email__
 from mysocks import chat
 import threading    # threading library is used to create separate threads for every clients connected
 import sys
@@ -31,7 +32,7 @@ class launch():
         # Parameters
         self._about_win_state = False
         self._server_state = False
-        
+
         self.isCalledFromServer = kwargs.get('isCalledFromServer', False)
         if self.isCalledFromServer == False:
             self.launch_gui(**kwargs)
@@ -50,9 +51,7 @@ class launch():
              self._about_win = win
              self._about_win_state = True
              win.title("About")
-             about = '''mysocks package - version 1.0.3
-             Author: Rahul Mahanot
-             Email: thecodeboxed@gmail.com'''
+             about = '''mysocks package - version ''' + __version__ + '''\nAuthor: ''' + __author__ + '''\nEmail: ''' + __email__
              about = re.sub("\n\s*", "\n", about) # remove leading whitespace from each line
              t=CustomText(win, wrap="word", width=100, height=10, borderwidth=0)
              t.tag_configure("blue", foreground="blue")
