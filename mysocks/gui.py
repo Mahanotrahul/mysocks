@@ -132,8 +132,8 @@ class launch():
 
     def Text_insert(self):
         try:
-            while not self._chat.message_queue.empty():
-                self.txtbox.insert(END, self._chat.message_queue.get() + '\n')
+            while not self._server_chat.message_queue.empty():
+                self.txtbox.insert(END, self._server_chat.message_queue.get() + '\n')
                 self.txtbox.see("end")
         except:
             pass
@@ -142,10 +142,10 @@ class launch():
     def start_server(self):
         if self._server_state == False:
             self._server_state = True
-            self._chat = chat.server(isCalledFromGUI = True)
-            self.chat_thread = threading.Thread(target = self._chat.start_server, args = ('127.0.0.1', 5660, 5))
-            self.chat_thread.daemon = True
-            self.chat_thread.start()
+            self._server_chat = chat.server(isCalledFromGUI = True)
+            self.server_chat_thread = threading.Thread(target = self._server_chat.start_server, args = ('127.0.0.1', 5660, 5))
+            self.server_chat_thread.daemon = True
+            self.server_chat_thread.start()
         else:
             print('Server already started')
 
