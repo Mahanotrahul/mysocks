@@ -160,19 +160,22 @@ class launch():
 
     def start_client(self):
         try:
-            if self._connected_as_client == False:
-                self._client_chat = chat.client(isCalledFromGUI = True)
-                self.client_chat_thread = threading.Thread(target = self._client_chat.start_client, args = ('127.0.0.1', 5660))
-                self.client_chat_thread.daemon = True
-                self.client_chat_thread.start()
-                time.sleep(3)
-                print(self._client_chat._connected_as_client)
-                if self._client_chat._connected_as_client == True:
-                    self._connected_as_client = True
+            if self._server_state == False:             # If server is running then chat is not allowed to start
+                if self._connected_as_client == False:
+                    self._client_chat = chat.client(isCalledFromGUI = True)
+                    self.client_chat_thread = threading.Thread(target = self._client_chat.start_client, args = ('127.0.0.1', 5660))
+                    self.client_chat_thread.daemon = True
+                    self.client_chat_thread.start()
+                    time.sleep(3)
+                    print(self._client_chat._connected_as_client)
+                    if self._client_chat._connected_as_client == True:
+                        self._connected_as_client = True
+                    else:
+                        print('Client could not be connected')
                 else:
-                    print('Client could not be connected')
+                    print('Client already connected')
             else:
-                print('Client already connected')
+                print('Server is running in the same window. Client cannot be connected.\nPlease start a new GUI window')
         except Exception as e:
             print(e)
             print('Unable to connect to server')
