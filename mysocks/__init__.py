@@ -76,16 +76,16 @@ class Model(object):
 
             print('Socket Server created at host = ', self.host, ':', str(self.port))
             self.s = s
+            self._server_running = True
             return self.s
 
         except Exception as e:
+            self._server_running = False
             if e.errno == 10048:
                 print('Socket already exists')
-                return self.s
             else:
                 print("Error: ", e)
                 print('Error with creating sockets')
-                sys.exit()
 
     def create_client_socket(self, host, port):
         """

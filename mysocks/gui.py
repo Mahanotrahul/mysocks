@@ -140,14 +140,23 @@ class launch():
         self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
-        if self._server_state == False:
-            self._server_state = True
-            self._server_chat = chat.server(isCalledFromGUI = True)
-            self.server_chat_thread = threading.Thread(target = self._server_chat.start_server, args = ('127.0.0.1', 5660, 5))
-            self.server_chat_thread.daemon = True
-            self.server_chat_thread.start()
-        else:
-            print('Server already started')
+        try:
+            if self._server_state == False:
+                self._server_state = True
+                self._server_chat = chat.server(isCalledFromGUI = True)
+                self.server_chat_thread = threading.Thread(target = self._server_chat.start_server, args = ('127.0.0.1', 5660, 5))
+                self.server_chat_thread.daemon = True
+                self.server_chat_thread.start()
+                time.sleep(0.5)
+                if self._server_chat._server_running == True:   # true : In case a server is running
+                    self._server_state = True                 # server is running at the same specified IP and port
+                else:
+                    self._server_state = False                # In case a server is running but was not started from this gui
+            else:
+                print('Server already running')
+        except Exception as e:
+            print(e)
+            print('Unable to start a new server.')
 
     def start_client(self):
         try:

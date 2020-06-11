@@ -103,7 +103,10 @@ class server(Model):
 
     def start_server(self, host, port, n_listen):
         self.s = super().create_server_socket(host, port, n_listen)
-        self.accept_connections()
+        if self._server_running == True:
+            self.accept_connections()
+        else:
+            print('Server already running at the specified IP and port')
 
     def accept_connections(self):
         """ Method to accept client connections.
@@ -231,8 +234,7 @@ class client(Model):
 
     def start_client(self, host, port):
         self.s = super().create_client_socket(host, port)
-        # self._connected_as_client = super()._connected_as_client
-        print(self._connected_as_client)
+
         if self._connected_as_client == True:
             ## Thread to receive data from the server
             self.receive_thread = threading.Thread(target = self.receive_data)
