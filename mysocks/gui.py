@@ -39,13 +39,16 @@ class launch():
         if self.isCalledFromServer == False:
             self.launch_gui(**kwargs)
 
+    #
+    #
+    # def hit_return(self, event):
+    #     print("You hit return.")
 
-
-    def hit_return(self, event):
-        print("You hit return.")
-
-    def onclick(self, event=None):
-        print("You clicked the button")
+    def submit(self, event=None):
+        message = self.message_box.get("1.0", 'end-1c')
+        time.sleep(0.1)
+        self.message_box.delete(1.0, END)
+        print(message)
 
     def _about_win(self):
         if self._about_win_state == False:
@@ -104,10 +107,10 @@ class launch():
         self.message_box.grid(row = 0, column = 0, columnspan = 2, pady=10, sticky = E+W+N+S)
 
 
-        self.btn_File = Button(self.group1, text='Send', command=self.onclick)
+        self.btn_File = Button(self.group1, text='Send', command=self.submit)
         self.btn_File.grid(row=0, column=2, padx=(10), pady=10, sticky=E+W+N+S)
 
-        self.message_box.bind('<Return>', self.hit_return)
+        self.message_box.bind('<Return>', self.submit)
 
         # Group2 Frame ----------------------------------------------------
         self.group2 = LabelFrame(self.master_window, text="Chat Room", padx=5, pady=5)
