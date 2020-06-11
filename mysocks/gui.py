@@ -49,6 +49,7 @@ class launch():
         time.sleep(0.1)
         self.message_box.delete(1.0, END)
         print(message)
+        return 'break'
 
     def _about_win(self):
         if self._about_win_state == False:
