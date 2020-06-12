@@ -103,7 +103,7 @@ class server(Model):
 
     def start_server(self, host, port, n_listen):
         self.s = super().create_server_socket(host, port, n_listen)
-        if self._server_running == True:
+        if self._server_running == True:    # Variable from _init_ while creating a new socket server
             self.accept_connections()
         else:
             print('Server already running at the specified IP and port')
@@ -220,6 +220,7 @@ class client(Model):
         """
 
         super(Model, self).__init__()
+        self.message_queue = Queue()
 
         self.gui = kwargs.get('gui', False)
         self.isCalledFromGUI = kwargs.get('isCalledFromGUI', False)
@@ -236,51 +237,84 @@ class client(Model):
         self.s = super().create_client_socket(host, port)
 
         if self._connected_as_client == True:
-            ## Thread to receive data from the server
-            self.receive_thread = threading.Thread(target = self.receive_data)
-            self.receive_thread.daemon = True
-            self.receive_thread.start()
+                ## Thread to receive data from the server
+                self.receive_thread = threading.Thread(target = self.receive_data)
+                self.receive_thread.daemon = True
+                self.receive_thread.start()
 
-            self.send_data()
+                if self.isCalledFromGUI == False:   # For gui, send_data function will be called by the gui
+                    self.set_username()
+                    self.send_data()
         else:
             print('Client could not connect to any server. Try again.')
 
-    def send_data(self):
+    def set_username(self, **kwargs):
+        try:
+            if self.isCalledFromGUI == True:
+                self.u_name = kwargs.get('username')
+            else:
+                self.u_name = input('Your username? ')
+            self.s.send(str.encode(self.u_name))
+            time.sleep(0.1)
+        except Exception as e:
+            print(e)
+            print('disconnected from the server')
+
+    def send_data(self, **kwargs):
         """Method to send text messages to the server that will be relayed to other clients
 
         """
 
-        try:
-            u_name = input('Your username? ')
-            self.s.send(str.encode(u_name))
+        if self.isCalledFromGUI == True:
+            try:
+                ready_to_read, ready_to_write, in_error = select.select([self.s,], [self.s,], [], 1)
+            except select.error as e:
+                self.s.shutdown(2)
+                self.s.close()
+
+                print('Client ' + str(self.u_name) + ' disconnected')
+                return
+
+            print('Sending Message')
+            data = kwargs.get('message')
+            msg = 'Your message : ' + str(data)
+            self.message_queue.put(msg)
             time.sleep(0.1)
-            while True:
-                try:
-                    ready_to_read, ready_to_write, in_error = select.select([self.s,], [self.s,], [], 1)
-                except select.error as e:
-                    self.s.shutdown(2)
-                    self.s.close()
+            if len(ready_to_write) > 0:
+                self.s.send(str.encode(data))
+                print(str(data) + '- Message sent')
+            else:
+                print('Client got disconnected')
+                return
 
-                    print('Client ' + str(u_name) + ' disconnected')
-                    break
+        else:
+            try:
+                while True:
+                    try:
+                        ready_to_read, ready_to_write, in_error = select.select([self.s,], [self.s,], [], 1)
+                    except select.error as e:
+                        self.s.shutdown(2)
+                        self.s.close()
 
-                data = input('Your Message : ')
-                time.sleep(0.1)
-                if len(ready_to_write) > 0:
-                    self.s.send(str.encode(data))
-                else:
-                    print('Client got disconnected')
-                    break
-        except Exception as e:
-            print(e)
-            print('disconnected from the server')
+                        print('Client ' + str(self.u_name) + ' disconnected')
+                        break
+
+                    data = input('Your Message : ')
+                    time.sleep(0.1)
+                    if len(ready_to_write) > 0:
+                        self.s.send(str.encode(data))
+                    else:
+                        print('Client got disconnected')
+                        break
+            except Exception as e:
+                print(e)
+                print('disconnected from the server')
 
     def receive_data(self):
         """Method to receive data from the server
 
 
         """
-
         try:
             while True:
                 try:
@@ -289,13 +323,14 @@ class client(Model):
                     self.s.shutdown(2)
                     self.s.close()
 
-                    print('Client ' + str(u_name) + ' disconnected')
+                    print('Client ' + str(self.u_name) + ' disconnected')
                     break
 
                 if len(ready_to_read) > 0:
                     msg = self.s.recv(1024)
                     msg = msg.decode('utf-8')
                     print(msg)
+                    self.message_queue.put(msg)
         except Exception as e:
             print(e)
             print('Client got disconnected')

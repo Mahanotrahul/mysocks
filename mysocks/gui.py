@@ -39,17 +39,27 @@ class launch():
         if self.isCalledFromServer == False:
             self.launch_gui(**kwargs)
 
-    #
-    #
-    # def hit_return(self, event):
-    #     print("You hit return.")
 
     def submit(self, event=None):
-        message = self.message_box.get("1.0", 'end-1c')
-        time.sleep(0.1)
-        self.message_box.delete(1.0, END)
-        print(message)
-        return 'break'
+        if self.u_name_state == False:
+            self.u_name = self.message_box.get("1.0", 'end-1c')
+            self.message_box.delete(1.0, END)
+            print('Username is set as ' + str(self.u_name))
+            self.u_name_state = True
+            self._client_chat.set_username(username = self.u_name)
+            self.group1.configure(text = 'Type your message here?')
+            self.master_window.title('Connected to server as ' + str(self.u_name))
+            return 'break'
+        else:
+            message = self.message_box.get("1.0", 'end-1c')
+            time.sleep(0.1)
+            self.message_box.delete(1.0, END)
+            print(message)
+            self._client_chat.send_data(message = message)
+            print('test')
+
+
+
 
     def _about_win(self):
         if self._about_win_state == False:
@@ -71,15 +81,14 @@ class launch():
         self._about_win.lift()
 
     def _close_about_win(self):
-        if self._about_win_state == True:
-            self._about_win_state = False
+        self._about_win_state = False
         self._about_win.destroy()
 
     def launch_gui(self, **kwargs):
 
 
         self.master_window = Tk()
-        self.title_master_window = kwargs.get('title', 'mysocks Chatroom')
+        self.title_master_window = kwargs.get('title', 'mysocks Chatroom')  # title to master window
         self.master_window.title(self.title_master_window)
 
         self.menu = Menu(self.master_window)
@@ -100,7 +109,7 @@ class launch():
         # scrollbar.pack(side = RIGHT, fill = Y )
 
         # Group1 Frame ----------------------------------------------------
-        self.group1 = LabelFrame(self.master_window, text="Type your message here", padx=5, pady=5)
+        self.group1 = LabelFrame(self.master_window, text = 'Type your message here', padx=5, pady=5)
         self.group1.grid(row=0, column=0, columnspan=3, padx=10, sticky=E+W+N+S)
 
         self.message_box = Text(self.group1, height = 2)
@@ -135,12 +144,20 @@ class launch():
         self.master_window.mainloop()
 
     def Text_insert(self):
-        try:
-            while not self._server_chat.message_queue.empty():
-                self.txtbox.insert(END, self._server_chat.message_queue.get() + '\n')
-                self.txtbox.see("end")
-        except:
-            pass
+        if self._server_state == True:
+            try:
+                while not self._server_chat.message_queue.empty():
+                    self.txtbox.insert(END, self._server_chat.message_queue.get() + '\n')
+                    self.txtbox.see("end")
+            except:
+                pass
+        elif self._connected_as_client == True:
+            try:
+                while not self._client_chat.message_queue.empty():
+                    self.txtbox.insert(END, self._client_chat.message_queue.get() + '\n')
+                    self.txtbox.see("end")
+            except:
+                pass
         self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
@@ -174,6 +191,8 @@ class launch():
                     print(self._client_chat._connected_as_client)
                     if self._client_chat._connected_as_client == True:
                         self._connected_as_client = True
+                        self.group1.configure(text = 'Your Username?')
+                        self.u_name_state = False            # True: Username of a client is set. False: username is yet to be set
                     else:
                         print('Client could not be connected')
                 else:
