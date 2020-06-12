@@ -40,6 +40,10 @@ class launch():
             self.launch_gui(**kwargs)
 
 
+    def new_window(self):
+        return
+
+
     def submit(self, event=None):
         if self.u_name_state == False:
             self.u_name = self.message_box.get("1.0", 'end-1c')
@@ -49,7 +53,7 @@ class launch():
             self._client_chat.set_username(username = self.u_name)
             self.group1.configure(text = 'Type your message here?')
             self.master_window.title('Connected to server as ' + str(self.u_name))
-        
+
         else:
             message = self.message_box.get("1.0", 'end-1c')
             time.sleep(0.1)
@@ -95,7 +99,7 @@ class launch():
         self.menu = Menu(self.master_window)
         self.filemenu = Menu(self.menu)
         self.menu.add_cascade(label='File', menu=self.filemenu)
-        self.filemenu.add_command(label = 'New')
+        self.filemenu.add_command(label = 'New', command = self.new_window)
         self.filemenu.add_command(label = 'Start Chatroom', command = self.start_server)
         self.filemenu.add_command(label = 'Connect to Chatroom', command = self.start_client)
         self.filemenu.add_separator()
