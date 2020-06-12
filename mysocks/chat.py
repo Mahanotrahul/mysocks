@@ -237,14 +237,16 @@ class client(Model):
         self.s = super().create_client_socket(host, port)
 
         if self._connected_as_client == True:
+            if self.isCalledFromGUI == True:        # For gui, send_data function will be called by the gui
+                self.receive_data()
+            else:
                 ## Thread to receive data from the server
                 self.receive_thread = threading.Thread(target = self.receive_data)
                 self.receive_thread.daemon = True
                 self.receive_thread.start()
 
-                if self.isCalledFromGUI == False:   # For gui, send_data function will be called by the gui
-                    self.set_username()
-                    self.send_data()
+                self.set_username()
+                self.send_data()
         else:
             print('Client could not connect to any server. Try again.')
 
@@ -327,6 +329,7 @@ class client(Model):
                     break
 
                 if len(ready_to_read) > 0:
+                    print('receiveing message')
                     msg = self.s.recv(1024)
                     msg = msg.decode('utf-8')
                     print(msg)

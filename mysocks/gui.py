@@ -49,7 +49,7 @@ class launch():
             self._client_chat.set_username(username = self.u_name)
             self.group1.configure(text = 'Type your message here?')
             self.master_window.title('Connected to server as ' + str(self.u_name))
-            return 'break'
+        
         else:
             message = self.message_box.get("1.0", 'end-1c')
             time.sleep(0.1)
@@ -57,6 +57,7 @@ class launch():
             print(message)
             self._client_chat.send_data(message = message)
             print('test')
+        return 'break'
 
 
 
