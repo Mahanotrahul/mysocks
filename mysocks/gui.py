@@ -47,21 +47,23 @@ class launch():
     def submit(self, event=None):
         if self._server_state == True:
             return
-        if self.u_name_state == False:
-            self.u_name = self.message_box.get("1.0", 'end-1c')
-            self.message_box.delete(1.0, END)
-            print('Username is set as ' + str(self.u_name))
-            self.u_name_state = True
-            self._client_chat.set_username(username = self.u_name)
-            self.group1.configure(text = 'Type your message here?')
-            self.master_window.title('Connected to server as ' + str(self.u_name))
+        if self._connected_as_client == True:
+            if self.u_name_state == False:
+                self.u_name = self.message_box.get("1.0", 'end-1c')
+                self.message_box.delete(1.0, END)
+                print('Username is set as ' + str(self.u_name))
+                self.u_name_state = True
+                self._client_chat.set_username(username = self.u_name)
+                self.group1.configure(text = 'Type your message here?')
+                self.master_window.title('Connected to server as ' + str(self.u_name))
 
-        else:
-            message = self.message_box.get("1.0", 'end-1c')
-            time.sleep(0.1)
-            self.message_box.delete(1.0, END)
-            print(message)
-            self._client_chat.send_data(message = message)
+            else:
+                message = self.message_box.get("1.0", 'end-1c')
+                time.sleep(0.1)
+                self.message_box.delete(1.0, END)
+                print(message)
+                self._client_chat.send_data(message = message)
+
         return 'break'
 
 
@@ -143,6 +145,7 @@ class launch():
         # Create the textbox
         self.txtbox = scrolledtext.ScrolledText(self.group2, width=40, height=10)
         self.txtbox.grid(row=0, column=0,   sticky=E+W+N+S)
+        # self.txtbox.config(state = DISABLED)
 
         self.master_window.config(menu=self.menu)
         self.master_window.after(1000, self.Text_insert)
@@ -169,6 +172,7 @@ class launch():
             elif self._client_chat._connected_as_client == False:
                 self._connected_as_client = False      # if client got disconnected unexpectedly
                 self.master_window.title('Client not connected')
+                self.u_name_state = False
                 self.txtbox.insert(END, 'Client disconnected unexpectedly' + '\n')
                 self.txtbox.insert(END, '---------------------------------------------' + '\n')
                 self.txtbox.see("end")
