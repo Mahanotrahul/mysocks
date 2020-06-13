@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 setup(
       name = 'mysocks',
       version = '1.0.4',
-      description = 'Testing installation of sockets package',
+      description = 'mysocks package for easy file transfer and chat',
       packages = ['mysocks'],
       license='MIT',
       url='https://github.com/Mahanotrahul/mysocks',
