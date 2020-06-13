@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setup(
       name = 'mysocks',
-      version = '1.0.4',
+      version = '1.1.0',
       description = 'mysocks package for easy file transfer and chat',
       packages = ['mysocks'],
       license='MIT',

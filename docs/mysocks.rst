@@ -36,6 +36,15 @@ mysocks.chat module
    :undoc-members:
    :show-inheritance:
 
+mysocks.gui module
+------------------------
+
+.. automodule:: mysocks.gui
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 mysocks.utilities module
 ------------------------
 

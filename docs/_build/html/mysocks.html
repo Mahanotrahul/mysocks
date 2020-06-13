@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mysocks package &mdash; mysocks 1.0.2 documentation</title>
+  <title>mysocks package &mdash; mysocks 1.1.0 documentation</title>
   
 
   
@@ -87,6 +87,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-mysocks.file_send">mysocks.file_send module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mysocks.file_transfer">mysocks.file_transfer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mysocks.chat">mysocks.chat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mysocks.gui">mysocks.gui module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mysocks.utilities">mysocks.utilities module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mysocks">Module contents</a></li>
 </ul>
@@ -99,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-mysocks.file_send">mysocks.file_send module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-mysocks.file_transfer">mysocks.file_transfer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-mysocks.chat">mysocks.chat module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mysocks.gui">mysocks.gui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-mysocks.utilities">mysocks.utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-mysocks">Module contents</a></li>
 </ul>
@@ -334,7 +336,7 @@
 
 <dl class="class">
 <dt id="mysocks.chat.client">
-<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">client</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">client</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all text message client methods.</dt><dd><p>Call this class to start a chat client.
@@ -350,6 +352,12 @@ This method connects to the server at the provided host and port</p>
 </dd>
 </dl>
 <dl class="method">
+<dt id="mysocks.chat.client.gui_thread">
+<code class="sig-name descname">gui_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.gui_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that will start a new thread to launch the gui when the function is called from terminal</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="mysocks.chat.client.receive_data">
 <code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.receive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to receive data from the server</p>
@@ -357,15 +365,27 @@ This method connects to the server at the provided host and port</p>
 
 <dl class="method">
 <dt id="mysocks.chat.client.send_data">
-<code class="sig-name descname">send_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.send_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">send_data</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.send_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to send text messages to the server that will be relayed to other clients</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.client.set_username">
+<code class="sig-name descname">set_username</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.set_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to set the username of the client</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.client.start_client">
+<code class="sig-name descname">start_client</code><span class="sig-paren">(</span><em class="sig-param">host</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.start_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to connect the client to the socket server and start sending and receiving messages.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="mysocks.chat.server">
-<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">server</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">server</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="source/mysocks.html#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all text message sending methods.</dt><dd><p>Call this class to start a chat server. CLients will be able to connect to this server and
@@ -413,6 +433,12 @@ Creates a separate thread for each client to receive_data from clients</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="mysocks.chat.server.gui_thread">
+<code class="sig-name descname">gui_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.gui_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that will start a new thread to launch the gui when the function is called from terminal</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="mysocks.chat.server.receive_data">
 <code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><em class="sig-param">conn</em>, <em class="sig-param">addr</em>, <em class="sig-param">client_no</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.receive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to receive data from clients.</p>
@@ -423,6 +449,129 @@ Creates a separate thread for each client to receive_data from clients</p>
 <li><p><strong>addr</strong> (<em>socket object</em>) – Address of the socket object</p></li>
 <li><p><strong>client_no</strong> – Integer identifier of a client</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.server.start_server">
+<code class="sig-name descname">start_server</code><span class="sig-paren">(</span><em class="sig-param">host</em>, <em class="sig-param">port</em>, <em class="sig-param">n_listen</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.start_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to start socket server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>string</em><em>, </em><em>optional</em>) – IP Address of the socket that the server will bind to. Defaults to 127.0.01</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – port of the socket server. Defaults to 5660</p></li>
+<li><p><strong>n_listen</strong> (<em>int</em>) – Max. number of clients to connect to at one time. Defaults to 5</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mysocks.gui">
+<span id="mysocks-gui-module"></span><h2>mysocks.gui module<a class="headerlink" href="#module-mysocks.gui" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mysocks.gui.CustomText">
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.gui.</code><code class="sig-name descname">CustomText</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.CustomText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Text</span></code></p>
+<p>A text widget with a new method, HighlightPattern</p>
+<p>example:</p>
+<p>text = CustomText()
+text.tag_configure(“red”,foreground=”#ff0000”)
+text.HighlightPattern(“this should be red”, “red”)</p>
+<p>The HighlightPattern method is a simplified python
+version of the tcl code at <a class="reference external" href="http://wiki.tcl.tk/3246">http://wiki.tcl.tk/3246</a></p>
+<dl class="method">
+<dt id="mysocks.gui.CustomText.HighlightPattern">
+<code class="sig-name descname">HighlightPattern</code><span class="sig-paren">(</span><em class="sig-param">pattern</em>, <em class="sig-param">tag</em>, <em class="sig-param">start='1.0'</em>, <em class="sig-param">end='end'</em>, <em class="sig-param">regexp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.CustomText.HighlightPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the given tag to all text that matches the given pattern</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mysocks.gui.launch">
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.gui.</code><code class="sig-name descname">launch</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>This class is a parent class for all tkinter gui related tasks</dt><dd><p>Call this class to get an object of launch class to start a tkinter gui.
+Filemenu options can be used to start a chatroom server or a client</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>kwargs</em>) – <p><cite>**kwargs</cite>.</p>
+</p>
+</dd>
+<dt class="field-even">Attr type launch_gui</dt>
+<dd class="field-even"><p>Function module to start gui</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="mysocks.gui.launch.Text_insert">
+<code class="sig-name descname">Text_insert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.Text_insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to show messages in the group2 window.
+It looks for messages in a message queue.
+If any message is found, message is shown and deleted from the queue.
+Message queue is populated by receive methods of chat.server and chat.client</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.get_id">
+<code class="sig-name descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.get_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to get thread id of the chat thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.launch_gui">
+<code class="sig-name descname">launch_gui</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.launch_gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to design the GUI widgets and launch the window
+The gui window is divided in three parts.
+1. Menubar
+2. group1 for textbox to type messages to be sent
+3. group2 for textbox to show show received messages and internal processings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.new_window">
+<code class="sig-name descname">new_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.new_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to create a new window of the gui.
+Not implemented yet in this version of the package.
+It will be implemented in future version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.raise_exception">
+<code class="sig-name descname">raise_exception</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.raise_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that raises an exception when GUI window is forcefully closed.
+This forces the gui to close directly without causing any daemon or non daemon threads to cause exception while closing the gui</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.start_client">
+<code class="sig-name descname">start_client</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.start_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to start a chat.client thread that will connect to the socket server.
+This method is called when connect to chatroom option in filemenu is clicked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.start_server">
+<code class="sig-name descname">start_server</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.start_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to start a chat.server thread that will start the socket server.
+This method is called when Start Server option in filemenu is clicked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.gui.launch.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.gui.launch.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to handle sending of message events.
+events are mouse click on send button or pressing of Enter key (&lt;return&gt;)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – Button click or &lt;return&gt; event</p>
 </dd>
 </dl>
 </dd></dl>

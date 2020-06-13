@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mysocks package &mdash; mysocks 1.0.2 documentation</title>
+  <title>mysocks package &mdash; mysocks 1.1.0 documentation</title>
   
 
   
@@ -310,7 +310,7 @@
 
 <dl class="class">
 <dt id="mysocks.chat.client">
-<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">client</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">client</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all text message client methods.</dt><dd><p>Call this class to start a chat client.
@@ -326,6 +326,12 @@ This method connects to the server at the provided host and port</p>
 </dd>
 </dl>
 <dl class="method">
+<dt id="mysocks.chat.client.gui_thread">
+<code class="sig-name descname">gui_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.gui_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that will start a new thread to launch the gui when the function is called from terminal</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="mysocks.chat.client.receive_data">
 <code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.receive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to receive data from the server</p>
@@ -333,15 +339,27 @@ This method connects to the server at the provided host and port</p>
 
 <dl class="method">
 <dt id="mysocks.chat.client.send_data">
-<code class="sig-name descname">send_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.send_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">send_data</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.send_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to send text messages to the server that will be relayed to other clients</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.client.set_username">
+<code class="sig-name descname">set_username</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.set_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to set the username of the client</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.client.start_client">
+<code class="sig-name descname">start_client</code><span class="sig-paren">(</span><em class="sig-param">host</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.client.start_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to connect the client to the socket server and start sending and receiving messages.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="mysocks.chat.server">
-<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">server</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">mysocks.chat.</code><code class="sig-name descname">server</code><span class="sig-paren">(</span><em class="sig-param">host='127.0.0.1'</em>, <em class="sig-param">port=5660</em>, <em class="sig-param">n_listen=5</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#mysocks.Model" title="mysocks.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">mysocks.Model</span></code></a></p>
 <dl class="simple">
 <dt>This class is a parent class for all text message sending methods.</dt><dd><p>Call this class to start a chat server. CLients will be able to connect to this server and
@@ -389,6 +407,12 @@ Creates a separate thread for each client to receive_data from clients</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="mysocks.chat.server.gui_thread">
+<code class="sig-name descname">gui_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.gui_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that will start a new thread to launch the gui when the function is called from terminal</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="mysocks.chat.server.receive_data">
 <code class="sig-name descname">receive_data</code><span class="sig-paren">(</span><em class="sig-param">conn</em>, <em class="sig-param">addr</em>, <em class="sig-param">client_no</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.receive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to receive data from clients.</p>
@@ -398,6 +422,21 @@ Creates a separate thread for each client to receive_data from clients</p>
 <li><p><strong>conn</strong> (<em>socket object</em>) – socket object of the client</p></li>
 <li><p><strong>addr</strong> (<em>socket object</em>) – Address of the socket object</p></li>
 <li><p><strong>client_no</strong> – Integer identifier of a client</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="mysocks.chat.server.start_server">
+<code class="sig-name descname">start_server</code><span class="sig-paren">(</span><em class="sig-param">host</em>, <em class="sig-param">port</em>, <em class="sig-param">n_listen</em><span class="sig-paren">)</span><a class="headerlink" href="#mysocks.chat.server.start_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to start socket server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>string</em><em>, </em><em>optional</em>) – IP Address of the socket that the server will bind to. Defaults to 127.0.01</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – port of the socket server. Defaults to 5660</p></li>
+<li><p><strong>n_listen</strong> (<em>int</em>) – Max. number of clients to connect to at one time. Defaults to 5</p></li>
 </ul>
 </dd>
 </dl>
