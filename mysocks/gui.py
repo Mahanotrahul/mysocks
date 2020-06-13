@@ -45,6 +45,8 @@ class launch():
 
 
     def submit(self, event=None):
+        if self._server_state == True:
+            return
         if self.u_name_state == False:
             self.u_name = self.message_box.get("1.0", 'end-1c')
             self.message_box.delete(1.0, END)
@@ -60,7 +62,6 @@ class launch():
             self.message_box.delete(1.0, END)
             print(message)
             self._client_chat.send_data(message = message)
-            print('test')
         return 'break'
 
 
@@ -151,18 +152,27 @@ class launch():
     def Text_insert(self):
         if self._server_state == True:
             try:
+                self.master_window.title('Server running - ' + str(self._server_chat.active_connections) + ' clients connected')
                 while not self._server_chat.message_queue.empty():
                     self.txtbox.insert(END, self._server_chat.message_queue.get() + '\n')
                     self.txtbox.see("end")
             except:
                 pass
         elif self._connected_as_client == True:
-            try:
-                while not self._client_chat.message_queue.empty():
-                    self.txtbox.insert(END, self._client_chat.message_queue.get() + '\n')
-                    self.txtbox.see("end")
-            except:
-                pass
+            if self._client_chat._connected_as_client == True:
+                try:
+                    while not self._client_chat.message_queue.empty():
+                        self.txtbox.insert(END, self._client_chat.message_queue.get() + '\n')
+                        self.txtbox.see("end")
+                except:
+                    pass
+            elif self._client_chat._connected_as_client == False:
+                self._connected_as_client = False      # if client got disconnected unexpectedly
+                self.master_window.title('Client not connected')
+                self.txtbox.insert(END, 'Client disconnected unexpectedly' + '\n')
+                self.txtbox.insert(END, '---------------------------------------------' + '\n')
+                self.txtbox.see("end")
+
         self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
@@ -176,6 +186,9 @@ class launch():
                 time.sleep(0.5)
                 if self._server_chat._server_running == True:   # true : In case a server is running
                     self._server_state = True                 # server is running at the same specified IP and port
+                    self.master_window.title('Server running')
+                    self.message_box.config(state = DISABLED)
+                    # self.group1.group_forget()
                 else:
                     self._server_state = False                # In case a server is running but was not started from this gui
             else:

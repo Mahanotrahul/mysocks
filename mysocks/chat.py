@@ -261,6 +261,7 @@ class client(Model):
         except Exception as e:
             print(e)
             print('disconnected from the server')
+            self._connected_as_client = False
 
     def send_data(self, **kwargs):
         """Method to send text messages to the server that will be relayed to other clients
@@ -273,19 +274,21 @@ class client(Model):
             except select.error as e:
                 self.s.shutdown(2)
                 self.s.close()
-
+                self._connected_as_client = False
                 print('Client ' + str(self.u_name) + ' disconnected')
                 return
 
-            print('Sending Message')
             data = kwargs.get('message')
             msg = 'Your message : ' + str(data)
             self.message_queue.put(msg)
             time.sleep(0.1)
-            if len(ready_to_write) > 0:
-                self.s.send(str.encode(data))
-                print(str(data) + '- Message sent')
-            else:
+            try:
+                if len(ready_to_write) > 0:
+                    self.s.send(str.encode(data))
+                    # print(str(data) + '- Message sent')
+            except:
+                self._connected_as_client = False
+                print('Disconnecting client.')
                 print('Client got disconnected')
                 return
 
@@ -303,9 +306,10 @@ class client(Model):
 
                     data = input('Your Message : ')
                     time.sleep(0.1)
-                    if len(ready_to_write) > 0:
-                        self.s.send(str.encode(data))
-                    else:
+                    try:
+                        if len(ready_to_write) > 0:
+                            self.s.send(str.encode(data))
+                    except:
                         print('Client got disconnected')
                         break
             except Exception as e:
@@ -329,13 +333,14 @@ class client(Model):
                     break
 
                 if len(ready_to_read) > 0:
-                    print('receiveing message')
                     msg = self.s.recv(1024)
                     msg = msg.decode('utf-8')
                     print(msg)
                     self.message_queue.put(msg)
         except Exception as e:
             print(e)
+            print('Disconnecting client.')
+            self._connected_as_client = False
             print('Client got disconnected')
 
     def gui_thread(self):

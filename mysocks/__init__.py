@@ -6,9 +6,6 @@ __author__ = 'Rahul Mahanot'
 __version__ = '1.0.4'
 __email__ = 'thecodeboxed@gmail.com'
 
-import sys
-sys.dont_write_bytecode = True
-
 
 import socket
 import sys
