@@ -102,6 +102,16 @@ class server(Model):
             pass
 
     def start_server(self, host, port, n_listen):
+        """ Method to start socket server
+
+        :param host: IP Address of the socket that the server will bind to. Defaults to 127.0.01
+        :type host: string, optional
+        :param port: port of the socket server. Defaults to 5660
+        :type port: int
+        :param n_listen: Max. number of clients to connect to at one time. Defaults to 5
+        :type n_listen: int
+
+        """
         self.s = super().create_server_socket(host, port, n_listen)
         if self._server_running == True:    # Variable from _init_ while creating a new socket server
             self.accept_connections()
@@ -191,6 +201,9 @@ class server(Model):
                 break
 
     def gui_thread(self):
+        """ Method that will start a new thread to launch the gui when the function is called from terminal
+
+        """
         self.gui_thread = threading.Thread(target = self._gui.launch_gui, args = ())
         self.gui_thread.daemon = True
         self.gui_thread.start()
@@ -234,6 +247,10 @@ class client(Model):
             pass
 
     def start_client(self, host, port):
+        """ Method to connect the client to the socket server and start sending and receiving messages.
+
+
+        """
         self.s = super().create_client_socket(host, port)
 
         if self._connected_as_client == True:
@@ -251,6 +268,10 @@ class client(Model):
             print('Client could not connect to any server. Try again.')
 
     def set_username(self, **kwargs):
+        """ Method to set the username of the client
+
+
+        """
         try:
             if self.isCalledFromGUI == True:
                 self.u_name = kwargs.get('username')
@@ -344,6 +365,9 @@ class client(Model):
             print('Client got disconnected')
 
     def gui_thread(self):
+        """ Method that will start a new thread to launch the gui when the function is called from terminal
+
+        """
         self.gui_thread = threading.Thread(target = self._gui.launch_gui, args = ())
         self.gui_thread.daemon = True
         self.gui_thread.start()

@@ -41,10 +41,22 @@ class launch():
 
 
     def new_window(self):
+        """ Method to create a new window of the gui.
+        Not implemented yet in this version of the package.
+        It will be implemented in future version
+
+
+        """
         return
 
 
     def submit(self, event=None):
+        """ Method to handle sending of message events.
+        events are mouse click on send button or pressing of Enter key (<return>)
+
+        :param event: Button click or <return> event
+
+        """
         if self._server_state == True:
             return
         if self._connected_as_client == True:
@@ -70,6 +82,11 @@ class launch():
 
 
     def _about_win(self):
+        """ Method to open a new Toplevel() window to show information about
+        mysocks package
+
+
+        """
         if self._about_win_state == False:
              win = tk.Toplevel()
              self._about_win = win
@@ -89,10 +106,23 @@ class launch():
         self._about_win.lift()
 
     def _close_about_win(self):
+        """ Method to handle exit event of the window.
+        When the Ok button is clicked, this method is called.
+
+
+        """
         self._about_win_state = False
         self._about_win.destroy()
 
     def launch_gui(self, **kwargs):
+        """ Method to design the GUI widgets and launch the window
+        The gui window is divided in three parts.
+        1. Menubar
+        2. group1 for textbox to type messages to be sent
+        3. group2 for textbox to show show received messages and internal processings
+
+
+        """
 
 
         self.master_window = Tk()
@@ -153,6 +183,12 @@ class launch():
         self.master_window.mainloop()
 
     def Text_insert(self):
+        """ Method to show messages in the group2 window.
+        It looks for messages in a message queue.
+        If any message is found, message is shown and deleted from the queue.
+        Message queue is populated by receive methods of chat.server and chat.client
+
+        """
         if self._server_state == True:
             try:
                 self.master_window.title('Server running - ' + str(self._server_chat.active_connections) + ' clients connected')
@@ -180,6 +216,11 @@ class launch():
         self.master_window.after(1000, self.Text_insert)
 
     def start_server(self):
+        """ Method to start a chat.server thread that will start the socket server.
+        This method is called when Start Server option in filemenu is clicked.
+
+
+        """
         try:
             if self._server_state == False:
                 self._server_state = True
@@ -202,6 +243,11 @@ class launch():
             print('Unable to start a new server.')
 
     def start_client(self):
+        """ Method to start a chat.client thread that will connect to the socket server.
+        This method is called when connect to chatroom option in filemenu is clicked.
+
+
+        """
         try:
             if self._server_state == False:             # If server is running then chat is not allowed to start
                 if self._connected_as_client == False:
@@ -226,12 +272,22 @@ class launch():
             print('Unable to connect to server')
 
     def _exit_gui(self):
+        """ Method to handle exit event of the window.
+        When the Exit option in File menu is clicked or the window is closed directly from the window bar,
+        this method is called.
+
+
+        """
         self.raise_exception()
         # self.chat_thread.join()
         self.master_window.destroy()
         sys.exit()
 
     def get_id(self):
+        """ Method to get thread id of the chat thread.
+
+
+        """
         # returns id of the respective thread
         if hasattr(self.chat_thread, '_thread_id'):
             return self.chat_thread._thread_id
@@ -239,6 +295,10 @@ class launch():
             if thread is self.chat_thread:
                 return id
     def raise_exception(self):
+        """ Method that raises an exception when GUI window is forcefully closed.
+        This forces the gui to close directly without causing any daemon or non daemon threads to cause exception while closing the gui
+
+        """
         try:
             thread_id = self.get_id()
             res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
