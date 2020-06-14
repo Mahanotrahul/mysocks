@@ -18,7 +18,7 @@ setup(
       author = 'Rahul Mahanot',
       install_requires=_get_requirements(),
       author_email = 'thecodeboxed@gmail.com',
-      download_url = 'https://github.com/Mahanotrahul/mysocks/archive/1.0.2.tar.gz',
+      download_url = 'https://github.com/Mahanotrahul/mysocks/tags',
       long_description = long_description,
       include_package_data=True,
       long_description_content_type="text/markdown")
