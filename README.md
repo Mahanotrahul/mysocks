@@ -33,7 +33,7 @@ server side\
 
 client side\
 `from mysocks import chat`\
-`chat.client`
+`chat.client()`
 
 ### TODO: Examples
 Have a look at `examples/` directory.
