@@ -27,11 +27,11 @@ Install one of python package managers in your distro. If you install pip, then 
 	- `2 - receive_files`
 
 ### How to run
-server side
+server side\
 `from mysocks import chat`\
 `chat.server()`
 
-client side
+client side\
 `from mysocks import chat`\
 `chat.client`
 
