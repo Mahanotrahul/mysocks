@@ -28,8 +28,8 @@ Install one of python package managers in your distro. If you install pip, then 
 
 ### How to run
 server side
-`from mysocks import chat
-chat.server()`
+``from mysocks import chat
+chat.server()``
 
 client side
 `from mysocks import chat
